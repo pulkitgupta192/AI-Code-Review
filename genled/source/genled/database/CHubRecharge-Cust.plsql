@@ -23,6 +23,7 @@ layer Cust;
 
 
 -------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
+/* Procedure Check_Insert___ is a standard IFS procedure, overrided to add additional busniess logic to validate the hub recharge columns before inserting the records*/
 @Override
 PROCEDURE Check_Insert___ (
    newrec_ IN OUT C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -138,7 +139,7 @@ BEGIN
    THEN
 	NULL;
 END Check_Insert___;
-
+/* Procedure Check_Common___ is a standard IFS procedure, overrided to add he default values for the column log_date, also this procedure will be validate when new records are created or old records are updated */
 @Override
 PROCEDURE Check_Common___ (
    oldrec_ IN     C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -169,6 +170,7 @@ END Check_Common___;
 
 
 -------------------- LU CUST NEW METHODS -------------------------------------
+/*Function Get_Recharge_Id is used to get the max(Recharge_id) as it is an primary column */
 FUNCTION Get_Recharge_Id RETURN NUMBER
 IS 
    id_ NUMBER;
@@ -190,6 +192,7 @@ END Get_Recharge_Id;
 
 
 --(+)250812 arcamarek M753-1 (start)
+/* Procedure C_Merge_Hub_Invoices is used to merge multiple pdfs attached in the document management against an individual invoice into single pdf files*/
 PROCEDURE C_Merge_Hub_Invoices(
    attr_ IN OUT VARCHAR2 )
 IS
