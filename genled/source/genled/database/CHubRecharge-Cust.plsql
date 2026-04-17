@@ -23,7 +23,7 @@ layer Cust;
 
 
 -------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
-/* Standard IFS Check_Insert___ overrided to add pre-insert validation for Hub Recharge fields*/
+/* Standard IFS Check_Insert___ overridden to add pre-insert validation for Hub Recharge fields*/
 @Override
 PROCEDURE Check_Insert___ (
    newrec_ IN OUT C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -140,7 +140,7 @@ BEGIN
    THEN
 	NULL;
 END Check_Insert___;
-/*Check_Common___ overrided to set LOG_DATE default and validate on DML (insert/update).*/
+/*Check_Common___ overridden to set LOG_DATE default and validate on DML (insert/update).*/
 @Override
 PROCEDURE Check_Common___ (
    oldrec_ IN     C_HUB_RECHARGE_TAB%ROWTYPE,
