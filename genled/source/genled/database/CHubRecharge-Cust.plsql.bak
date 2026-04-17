@@ -67,6 +67,7 @@ IS
    acc_prd_ ACC_PERIOD_LEDGER.accounting_year%TYPE:=NULL;
    -- (+)250716 ArcSubanK Redmine#6007(Finish) 
    
+   
    --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Start)
    CURSOR get_hub_media(customer_id_ VARCHAR2,media_code_ VARCHAR2) 
 IS 
@@ -140,7 +141,7 @@ BEGIN
    THEN
 	NULL;
 END Check_Insert___;
-/*Check_Common___ overrided to set LOG_DATE default value as sysdate*/
+/*Check_Common___ overrided to set LOG_DATE default and validate on DML (insert/update).*/
 @Override
 PROCEDURE Check_Common___ (
    oldrec_ IN     C_HUB_RECHARGE_TAB%ROWTYPE,

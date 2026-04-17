@@ -16,7 +16,7 @@ layer Cust;
 
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
-/*C_Hub_Recharge overridden for company/site-level row-level security for each users to view the records in the hub recharge screen*/
+/*C_Hub_Recharge overridden for company/site-level row-level security (RLS)*/
 @Override
 VIEW C_Hub_Recharge IS
 WHERE company_source IN (SELECT company
