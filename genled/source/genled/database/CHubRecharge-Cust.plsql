@@ -23,7 +23,7 @@ layer Cust;
 
 
 -------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
-/* Procedure Check_Insert___ is a standard IFS procedure, overrided to add additional busniess logic to validate the hub recharge columns before inserting the records*/
+/* Standard IFS Check_Insert___ overridden to add pre-insert validation for Hub Recharge fields*/
 @Override
 PROCEDURE Check_Insert___ (
    newrec_ IN OUT C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -69,16 +69,18 @@ IS
    
    
    --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Start)
-   CURSOR get_hub_media(customer_id_ VARCHAR2) 
+   CURSOR get_hub_media(customer_id_ VARCHAR2,media_code_ VARCHAR2) 
 IS 
       SELECT 
       1
       FROM CUSTOMER_INFO_MSG_SETUP 
       WHERE customer_id=customer_id_
-      AND media_code= 'HUB';
+      AND media_code= media_code_;
+	  
    exist_ NUMBER := 0;
    period_status_ VARCHAR2(1) := 'O';
    current_status_ VARCHAR2(4000) := 'Instant Invoice To Be Created';
+   media_ VARCHAR2(10) := 'HUB';
    --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(finish)
 BEGIN
    --Add pre-processing code here
@@ -122,7 +124,7 @@ BEGIN
    super(newrec_, indrec_, attr_);
    --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Start)
       exist_ := 0;
-      OPEN  get_hub_media(newrec_.interco_re_sales_inst_inv);
+      OPEN  get_hub_media(newrec_.interco_re_sales_inst_inv,media_);
       FETCH get_hub_media INTO exist_;
       CLOSE get_hub_media;
       
@@ -139,7 +141,7 @@ BEGIN
    THEN
 	NULL;
 END Check_Insert___;
-/* Procedure Check_Common___ is a standard IFS procedure, overrided to add he default values for the column log_date, also this procedure will be validate when new records are created or old records are updated */
+/*Check_Common___ overridden to set LOG_DATE default and validate on DML (insert/update).*/
 @Override
 PROCEDURE Check_Common___ (
    oldrec_ IN     C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -170,7 +172,7 @@ END Check_Common___;
 
 
 -------------------- LU CUST NEW METHODS -------------------------------------
-/*Function Get_Recharge_Id is used to get the max(Recharge_id)to avoid the duplicate entry of recharge id*/
+/*Get_Recharge_Id returns MAX(Recharge_Id) to prevent duplicate Recharge_Id generation.*/
 FUNCTION Get_Recharge_Id RETURN NUMBER
 IS 
    id_ NUMBER;
@@ -192,7 +194,7 @@ END Get_Recharge_Id;
 
 
 --(+)250812 arcamarek M753-1 (start)
-/* Procedure C_Merge_Hub_Invoices is used to merge multiple pdfs attached in the document management against an individual invoice into single pdf files*/
+/*C_Merge_Hub_Invoices merges all DMS PDF attachments for an invoice into one PDF.*/
 PROCEDURE C_Merge_Hub_Invoices(
    attr_ IN OUT VARCHAR2 )
 IS
