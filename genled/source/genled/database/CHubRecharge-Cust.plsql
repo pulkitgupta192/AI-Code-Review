@@ -23,7 +23,7 @@ layer Cust;
 
 
 -------------------- LU SPECIFIC IMPLEMENTATION METHODS ---------------------
-/* Standard IFS Check_Insert___ overridden to add pre-insert validation for Hub Recharge fields*/
+/* Standard IFS Check_Insert___ overrided to add pre-insert validation for Hub Recharge fields*/
 @Override
 PROCEDURE Check_Insert___ (
    newrec_ IN OUT C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -124,7 +124,7 @@ BEGIN
    super(newrec_, indrec_, attr_);
    --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Start)
       exist_ := 0;
-      OPEN  get_hub_media(newrec_.interco_re_sales_inst_inv,media_);
+      OPEN  get_hub_media(newrec_.interco_re_sales_inst_inv, media_);
       FETCH get_hub_media INTO exist_;
       CLOSE get_hub_media;
       
@@ -141,7 +141,7 @@ BEGIN
    THEN
 	NULL;
 END Check_Insert___;
-/*Check_Common___ overridden to set LOG_DATE default and validate on DML (insert/update).*/
+/*Check_Common___ overrided to set LOG_DATE default and validate on DML (insert/update).*/
 @Override
 PROCEDURE Check_Common___ (
    oldrec_ IN     C_HUB_RECHARGE_TAB%ROWTYPE,
@@ -172,7 +172,7 @@ END Check_Common___;
 
 
 -------------------- LU CUST NEW METHODS -------------------------------------
-/*Get_Recharge_Id returns MAX(Recharge_Id) to prevent duplicate Recharge_Id generation.*/
+/*Function Get_Recharge_Id returns MAX(Recharge_Id) in order to prevent duplicate Recharge_Id generation.*/
 FUNCTION Get_Recharge_Id RETURN NUMBER
 IS 
    id_ NUMBER;
@@ -194,7 +194,7 @@ END Get_Recharge_Id;
 
 
 --(+)250812 arcamarek M753-1 (start)
-/*C_Merge_Hub_Invoices merges all DMS PDF attachments for an invoice into one PDF.*/
+/*Procedure C_Merge_Hub_Invoices used to merges all DMS PDF attachments for an invoice into one PDF.*/
 PROCEDURE C_Merge_Hub_Invoices(
    attr_ IN OUT VARCHAR2 )
 IS
