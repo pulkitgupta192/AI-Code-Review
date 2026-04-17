@@ -140,7 +140,7 @@ BEGIN
    THEN
 	NULL;
 END Check_Insert___;
-/*Check_Common___ overrided to set LOG_DATE default value as sysdate*/
+/*Check_Common___ overrided to set LOG_DATE default and validate on DML (insert/update).*/
 @Override
 PROCEDURE Check_Common___ (
    oldrec_ IN     C_HUB_RECHARGE_TAB%ROWTYPE,
