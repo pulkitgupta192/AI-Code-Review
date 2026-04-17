@@ -1,0 +1,46 @@
+-----------------------------------------------------------------------------
+--
+--  Logical unit: CHubRecharge
+--  Component:    GENLED
+--
+--  IFS Developer Studio Template Version 3.0
+--
+--  Date    Sign    History
+--  ------  ------  ---------------------------------------------------------
+--  250912 ArcAmarek E833-5766 printing and merging pdfs
+-----------------------------------------------------------------------------
+
+layer Cust;
+
+-------------------- COMMON COLUMN DEFINITIONS ------------------------------
+
+
+-------------------- PUBLIC VIEW DEFINITIONS --------------------------------
+/* View C_Hub_Recharge is overrided with the logic to view the records in the recharge hub screen only for the eligible users */
+@Override
+VIEW C_Hub_Recharge IS
+WHERE company_source IN (SELECT company
+	FROM c_recharge_type_user_group_tab
+	WHERE company = company_source
+	AND recharge_type_id = recharge_type
+   AND user_group IN (SELECT user_group 
+                     FROM user_group_member_finance               
+                     WHERE userid = Fnd_Session_API.Get_Fnd_User  
+                     AND company = company_source))   
+   AND recharge_type IN (SELECT recharge_type_id
+	FROM c_recharge_type_user_group_tab
+	WHERE company = company_source
+	AND recharge_type_id = recharge_type
+   AND user_group IN (SELECT user_group 
+                     FROM user_group_member_finance               
+                     WHERE userid = Fnd_Session_API.Get_Fnd_User  
+                     AND company = company_source))
+	AND (Site_Source IN (SELECT contract
+	FROM user_allowed_site
+	WHERE userid = Fnd_Session_API.Get_Fnd_User)
+   OR
+	Target_Site_Source IN (SELECT  contract
+	FROM  user_allowed_site
+	WHERE userid = Fnd_Session_API.Get_Fnd_User));
+	-------------------- PRIVATE VIEW DEFINITIONS -------------------------------
+	
