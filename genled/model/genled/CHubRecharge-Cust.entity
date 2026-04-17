@@ -1,41 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ENTITY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:ifsworld-com:schemas:entity_entity">
-   <CODE_GENERATION_PROPERTIES>
-      <CODE_GENERATION_PROPERTIES>
-      </CODE_GENERATION_PROPERTIES>
-   </CODE_GENERATION_PROPERTIES>
    <DIAGRAMS>
       <DIAGRAM>
          <NAME>State Machine</NAME>
          <DIAGRAM_TYPE>STATE_MACHINE</DIAGRAM_TYPE>
       </DIAGRAM>
    </DIAGRAMS>
-   <COMMENTS>
-      <COMMENT>
-         <POSITION>61</POSITION>
-         <COMMENT_TEXT>// (+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Start)
-</COMMENT_TEXT>
-         <SECTION>attributes</SECTION>
-      </COMMENT>
-      <COMMENT>
-         <POSITION>63</POSITION>
-         <COMMENT_TEXT>//(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Finish)
-</COMMENT_TEXT>
-         <SECTION>attributes</SECTION>
-      </COMMENT>
-      <COMMENT>
-         <POSITION>63</POSITION>
-         <COMMENT_TEXT>//(+)250729 ArcSubanK M494:Redmine#5375(Start)
-</COMMENT_TEXT>
-         <SECTION>attributes</SECTION>
-      </COMMENT>
-      <COMMENT>
-         <POSITION>64</POSITION>
-         <COMMENT_TEXT>//(+)250729 ArcSubanK M494:Redmine#5375(Finish)
-</COMMENT_TEXT>
-         <SECTION>attributes</SECTION>
-      </COMMENT>
-   </COMMENTS>
    <NAME>CHubRecharge</NAME>
    <COMPONENT>GENLED</COMPONENT>
    <LAYER>Cust</LAYER>

@@ -44,7 +44,7 @@ IS
                   AND c.user_group=u.user_group
                   AND c.recharge_type_id=recharge_type_);
                   
-   CURSOR get_acc_period(recharge_type_ VARCHAR2,company_ VARCHAR2,acc_year_ NUMBER,acc_period_ NUMBER)
+   CURSOR get_acc_period(recharge_type_ VARCHAR2,company_ VARCHAR2,acc_year_ NUMBER,acc_period_ NUMBER,period_status_ VARCHAR2)
 IS 
       SELECT 
          accounting_period
@@ -52,7 +52,7 @@ IS
       WHERE company = company_ 
       AND accounting_year= acc_year_
       AND accounting_period BETWEEN acc_period_  AND extract(MONTH FROM sysdate)
-      AND period_status_db ='O'
+      AND period_status_db =period_status_
       AND EXISTS(
          SELECT 1
          FROM C_RECHARGE_TYPE_USER_GROUP c
@@ -76,6 +76,8 @@ IS
       WHERE customer_id=customer_id_
       AND media_code= 'HUB';
    exist_ NUMBER := 0;
+   period_status_ VARCHAR2(1) := 'O';
+   current_status_ VARCHAR2(4000) := 'Instant Invoice To Be Created';
    --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(finish)
 BEGIN
    --Add pre-processing code here
@@ -85,7 +87,7 @@ BEGIN
    END IF;
    newrec_.recharge_id:=Get_Recharge_Id;
    --Error_SYS.Record_General(lu_name_, newrec_.recharge_id);
-   newrec_.current_status:='Instant Invoice To Be Created';
+   newrec_.current_status:=current_status_;
    -- (+)250716 ArcSubanK Redmine#6007(Start) 
    status_ := NULL;
    acc_yr_ := NULL;
@@ -98,9 +100,9 @@ BEGIN
    FETCH check_prd_status INTO status_;
    CLOSE check_prd_status;
    
-   IF status_ !='O'
+   IF status_ !=period_status_
    THEN
-      OPEN  get_acc_period(newrec_.recharge_type ,newrec_.company_source,acc_yr_,acc_prd_);
+      OPEN  get_acc_period(newrec_.recharge_type ,newrec_.company_source,acc_yr_,acc_prd_,period_status_);
       FETCH get_acc_period INTO months_;
       CLOSE get_acc_period;
       
@@ -131,6 +133,10 @@ BEGIN
       END IF;
       --(+)250310 ArcSubanK M494:Redmine#5314,5364 and 5343(Finish)
    --Add post-processing code here
+   EXCEPTION
+   WHEN OTHERS
+   THEN
+	NULL;
 END Check_Insert___;
 
 @Override
