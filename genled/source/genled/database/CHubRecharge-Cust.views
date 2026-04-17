@@ -16,7 +16,7 @@ layer Cust;
 
 
 -------------------- PUBLIC VIEW DEFINITIONS --------------------------------
-/* View C_Hub_Recharge is overrided with the logic to view the records in the recharge hub screen only for the eligible users */
+/* View C_Hub_Recharge is overrided so that the records in the recharge hub screen is visible only for the eligible users for their corresponding companies and sites*/
 @Override
 VIEW C_Hub_Recharge IS
 WHERE company_source IN (SELECT company

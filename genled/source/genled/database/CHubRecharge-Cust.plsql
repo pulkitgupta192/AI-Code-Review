@@ -170,7 +170,7 @@ END Check_Common___;
 
 
 -------------------- LU CUST NEW METHODS -------------------------------------
-/*Function Get_Recharge_Id is used to get the max(Recharge_id) as it is an primary column */
+/*Function Get_Recharge_Id is used to get the max(Recharge_id)to avoid the duplicate entry of recharge id*/
 FUNCTION Get_Recharge_Id RETURN NUMBER
 IS 
    id_ NUMBER;
